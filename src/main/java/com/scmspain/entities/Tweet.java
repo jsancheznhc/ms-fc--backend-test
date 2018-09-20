@@ -1,9 +1,8 @@
 package com.scmspain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Tweet {
@@ -11,10 +10,14 @@ public class Tweet {
     @GeneratedValue
     private Long id;
     @Column(nullable = false)
+    private LocalDateTime creation;
+    @Column(nullable = true)
+    private LocalDateTime discarded;
+    @Column(nullable = false)
     private String publisher;
-    @Column(nullable = false, length = 140)
+    @Column(nullable = false)
     private String tweet;
-    @Column (nullable=true)
+    @Column(nullable = true)
     private Long pre2015MigrationStatus = 0L;
 
     public Tweet() {
@@ -26,6 +29,26 @@ public class Tweet {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCreation() {
+        return creation.format(DateTimeFormatter.ISO_DATE_TIME);
+    }
+
+    public void setCreation(LocalDateTime creation) {
+        this.creation = creation;
+    }
+
+    public String getDiscarded() {
+        if (discarded != null) {
+            return discarded.format(DateTimeFormatter.ISO_DATE_TIME);
+        }else{
+            return "";
+        }
+    }
+
+    public void setDiscarded(LocalDateTime discarded) {
+        this.discarded = discarded;
     }
 
     public String getPublisher() {
